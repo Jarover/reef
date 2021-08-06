@@ -60,6 +60,7 @@ func main() {
 	r.LoadHTMLGlob(dir + "/templates/*")
 	r.GET("/", homePage)
 	r.GET("/info", infoPage)
+	r.GET("/api/levels", levels)
 
 	r.Run(":" + strconv.FormatUint(uint64(Config.Port), 10)) // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 

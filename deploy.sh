@@ -15,7 +15,7 @@ else
 fi
 
 echo '* Создаем архив...'
-tar -czf yourproject.tar.gz reef version.json templates/*
+tar -czf yourproject.tar.gz reef version.json templates/* static/*
 if [ $? -ne 0 ]
 then
   exit 1;
@@ -36,7 +36,7 @@ fi;
 
 
 echo '* Распаковываем архив на серверe...'
-ssh -p 42401 $SSH_HOST "cd $DOC_ROOT; tar -xzf yourproject.tar.gz 2> /dev/null && rm -rf $DOC_ROOT/goapp/reef && rm -rf $DOC_ROOT/goapp/version.json  && rm -rf $DOC_ROOT/goapp/templates/*  &&  mv templates/ $DOC_ROOT/goapp/ && mv reef $DOC_ROOT/goapp  && mv version.json $DOC_ROOT/goapp && chmod -R a+w+x $DOC_ROOT/goapp/reef"
+ssh -p 42401 $SSH_HOST "cd $DOC_ROOT; tar -xzf yourproject.tar.gz 2> /dev/null && rm -rf $DOC_ROOT/goapp/reef && rm -rf $DOC_ROOT/goapp/version.json  && rm -rf $DOC_ROOT/goapp/templates/* && rm -rf $DOC_ROOT/public_html/static/* && rm -rf $DOC_ROOT/goapp/static/* &&  mv templates/ $DOC_ROOT/goapp/ && mv static/ $DOC_ROOT/public_html/ &&  mv reef $DOC_ROOT/goapp  && mv version.json $DOC_ROOT/goapp && chmod -R a+w+x $DOC_ROOT/goapp/reef"
 if [ $? -ne 0 ]
 then
   exit 1;
