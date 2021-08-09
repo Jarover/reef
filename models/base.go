@@ -3,8 +3,8 @@ package models
 type Wlevel struct {
 	ID        int `json:"id"`
 	Point_id  int
-	Level     int
-	Offset    int
+	Level     int64
+	Offset    int64
 	Datetime  string
 	Published bool
 }

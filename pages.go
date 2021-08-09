@@ -4,6 +4,7 @@ import (
 	"log"
 	"math"
 	"net/http"
+	"time"
 
 	"github.com/Jarover/reef/models"
 	"github.com/Jarover/reef/readconfig"
@@ -50,22 +51,25 @@ func infoPage(c *gin.Context) {
 func levels(c *gin.Context) {
 
 	var levels = []models.Wlevel{}
-	models.GetDB().Where("point_id = ?", 26).Find(&levels)
+	models.GetDB().Order("datetime desc").Where("point_id = ? and channel_id = ?", 26, 1).Limit(1000).Find(&levels)
 	type row struct {
-		utime string
-		level int
+		Utime string
+		Level int64
+		Unix  int64
 	}
 	var out []row
+	var n row
 
 	for _, v := range levels {
-		var n row
-		n.level = v.Level
-		n.utime = v.Datetime
+
+		n.Level = v.Offset - v.Level
+		n.Utime = v.Datetime
+		t, _ := time.Parse(time.RFC3339, v.Datetime)
+		n.Unix = (t.Unix() + 3*3600) * 1000
 		out = append(out, n)
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"out":    out,
-		"levels": levels,
+		"out": out,
 	})
 }
