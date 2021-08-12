@@ -61,6 +61,7 @@ func main() {
 	r.GET("/", homePage)
 	r.GET("/info", infoPage)
 	r.GET("/api/levels", levels)
+	r.GET("/api/chanels/:ch", chanels)
 
 	r.Run(":" + strconv.FormatUint(uint64(Config.Port), 10)) // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 

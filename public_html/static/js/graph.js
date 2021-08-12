@@ -9,7 +9,7 @@ var optionslevels = {
     },
 
     title: {
-    text: 'Orders/Minute'
+    text: 'Уровень воды'
     },
 
     plotOptions: {
@@ -35,16 +35,20 @@ var optionslevels = {
     },
     yAxis: {
         title: {
-            text: 'Orders'
+            text: 'Уровень, см'
         },
     },
 
-
+    exporting: {
+        enabled: false
+    },   
 
     legend: {
-        enabled: true
+        enabled: false
     },
-
+    tooltip: {
+        xDateFormat: '%Y-%m-%d %H:%M',
+    }
 
 
 }
@@ -52,6 +56,7 @@ var optionslevels = {
 
 function graphLevels(id) {
 	
+
     var chartlevels = Highcharts.chart(id, optionslevels);	
     $.getJSON(
         '/api/levels/',
@@ -61,14 +66,14 @@ function graphLevels(id) {
             //console.log(val.Level)
             datas.push([val.Unix,val.Level]);
         });
-        console.log(datas);
+        //console.log(datas);
         chartlevels.addSeries({
                 id: "levelsID",
                 name: "levelsName",
                 data: datas
             
         });
-      
+        chartlevels.reflow();
                                                                                             
     });
 }
